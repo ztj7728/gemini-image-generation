@@ -214,9 +214,7 @@ async function main() {
   console.log(
     JSON.stringify(
       {
-        model,
-        prompt,
-        inputs: inputContents.map(({ input, mimeType }) => ({ input, mimeType })),
+        imageCount: savedImages.length,
         ...(imageConfig ? { imageConfig } : {}),
         images: savedImages,
       },

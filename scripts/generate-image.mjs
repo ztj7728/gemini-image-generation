@@ -147,8 +147,7 @@ async function main() {
   console.log(
     JSON.stringify(
       {
-        model,
-        prompt,
+        imageCount: savedImages.length,
         ...(imageConfig ? { imageConfig } : {}),
         images: savedImages,
       },

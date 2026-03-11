@@ -2,6 +2,7 @@
 name: gemini-image-generation
 description: 'Generate or edit images with Gemini using the Google GenAI SDK. Use when the user asks to create, transform, render, or save one or more images in an OpenClaw skill workflow.'
 argument-hint: 'prompt="<image prompt>" output="outputs/image.png" [input="assets/source.png"] [input="assets/source-2.png"] [aspectRatio="16:9"] [imageSize="2K"]'
+metadata: {"openclaw":{"emoji":"🎨","requires":{"bins":["node","npm"],"env":["GEMINI_API_KEY","GEMINI_MODEL_ID"]},"primaryEnv":"GEMINI_API_KEY","optionalEnv":"GEMINI_BASE_URL"}}
 ---
 
 # Image Generation
@@ -56,6 +57,7 @@ node ./.claude/skills/gemini-image-generation/scripts/edit-image.mjs --prompt "C
 ## Notes
 
 - The script prints `TEXT:` lines for model text and `IMAGE:` lines for each saved file.
+- The final JSON summary only includes generated image paths and optional image config so prompts, model IDs, and source image paths are not echoed back into logs.
 - If the model returns multiple images, the scripts save them as `name-1.png`, `name-2.png`, and so on.
 - `edit-image.mjs` supports repeated `--input` flags. You can also pass a comma-separated list to a single `--input` value.
 - `edit-image.mjs` infers the source mime type from `.png`, `.jpg`, `.jpeg`, or `.webp`. Use one `--mime-type` for all inputs, or repeat `--mime-type` so it lines up with each `--input`.

@@ -38,7 +38,7 @@ Use this skill when you need to create one or more image files from a text promp
 }
 ```
 - Node.js must be installed in the workspace environment.
-- Install dependencies once with `npm install` from the workspace root.
+- Install dependencies once with `npm install` from the skill root.
 
 ## When To Use
 

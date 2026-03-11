@@ -11,9 +11,32 @@ Use this skill when you need to create one or more image files from a text promp
 
 ## Requirements
 
-- `GEMINI_API_KEY` must be available in the environment.
-- `GEMINI_MODEL_ID` must be available in the environment and should point to a model that supports image output. For image editing, it should support image input as well.
-- `GEMINI_BASE_URL` is optional in the environment for custom endpoints, and should not have a trailing slash if provided.
+
+- `~/.openclaw/openclaw.json` must include `$.skills.entries["gemini-image-generation"].enabled` set to `true`.
+- `~/.openclaw/openclaw.json` must include `$.skills.entries["gemini-image-generation"].env` with the following keys and values:
+- `GEMINI_API_KEY` required
+- `GEMINI_MODEL_ID` required
+- `GEMINI_BASE_URL` optional
+
+- example `~/.openclaw/openclaw.json`:
+```json
+{
+  ......,
+  "skills": {
+    "entries": {
+      "gemini-image-generation": {
+        "enabled": true,
+        "env": {
+          "GEMINI_API_KEY": "sk-xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          "GEMINI_MODEL_ID": "gemini-3.1-flash-image-preview",
+          "GEMINI_BASE_URL": "https://custom-endpoint.com"
+        }
+      }
+    }
+  },
+  ......
+}
+```
 - Node.js must be installed in the workspace environment.
 - Install dependencies once with `npm install` from the workspace root.
 
@@ -58,6 +81,7 @@ node ./.claude/skills/gemini-image-generation/scripts/edit-image.mjs --prompt "C
 
 - The script prints `TEXT:` lines for model text and `IMAGE:` lines for each saved file.
 - The final JSON summary only includes generated image paths and optional image config so prompts, model IDs, and source image paths are not echoed back into logs.
+- Saved file extensions follow the returned image mime type. If the requested output path uses a different suffix, the scripts keep the base name and write the file with the returned type instead.
 - If the model returns multiple images, the scripts save them as `name-1.png`, `name-2.png`, and so on.
 - `edit-image.mjs` supports repeated `--input` flags. You can also pass a comma-separated list to a single `--input` value.
 - `edit-image.mjs` infers the source mime type from `.png`, `.jpg`, `.jpeg`, or `.webp`. Use one `--mime-type` for all inputs, or repeat `--mime-type` so it lines up with each `--input`.

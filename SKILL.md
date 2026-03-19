@@ -58,28 +58,30 @@ Use this skill when you need to create one or more image files from a text promp
 7. Read the api key from `GEMINI_API_KEY` and the model ID from `GEMINI_MODEL_ID` in the environment.
 8. Optionally, read the base URL from `GEMINI_BASE_URL` in the environment for custom endpoints.
 9. Return the saved image path or paths to the user.
+10. After returning each image path, also output `MEDIA:<image_path>` (e.g. `MEDIA:outputs/gemini-native-image.png`) so the image is displayed inline in the conversation.
 
 ## Commands
 
 ```powershell
-node ./.claude/skills/gemini-image-generation/scripts/generate-image.mjs --prompt "Create a picture of a nano banana dish in a fancy restaurant with a Gemini theme" --output "outputs/gemini-native-image.png"
+node ./skills/gemini-image-generation/scripts/generate-image.mjs --prompt "Create a picture of a nano banana dish in a fancy restaurant with a Gemini theme" --output "outputs/gemini-native-image.png"
 ```
 
 ```powershell
-node ./.claude/skills/gemini-image-generation/scripts/generate-image.mjs --prompt "Create a wide cinematic food photo of a nano banana dish in a fancy restaurant with a Gemini theme" --output "outputs/gemini-wide.png" --aspectRatio "16:9" --imageSize "2K"
+node ./skills/gemini-image-generation/scripts/generate-image.mjs --prompt "Create a wide cinematic food photo of a nano banana dish in a fancy restaurant with a Gemini theme" --output "outputs/gemini-wide.png" --aspectRatio "16:9" --imageSize "2K"
 ```
 
 ```powershell
-node ./.claude/skills/gemini-image-generation/scripts/edit-image.mjs --prompt "Turn this cat into a watercolor illustration eating a nano-banana in a fancy restaurant under the Gemini constellation" --input "inputs/cat.png" --output "outputs/cat-watercolor.png" --aspectRatio "5:4" --imageSize "2K"
+node ./skills/gemini-image-generation/scripts/edit-image.mjs --prompt "Turn this cat into a watercolor illustration eating a nano-banana in a fancy restaurant under the Gemini constellation" --input "inputs/cat.png" --output "outputs/cat-watercolor.png" --aspectRatio "5:4" --imageSize "2K"
 ```
 
 ```powershell
-node ./.claude/skills/gemini-image-generation/scripts/edit-image.mjs --prompt "Create an office group photo of these people making funny faces" --input "inputs/person-1.jpg" --input "inputs/person-2.jpg" --input "inputs/person-3.jpg" --output "outputs/group-photo.png"
+node ./skills/gemini-image-generation/scripts/edit-image.mjs --prompt "Create an office group photo of these people making funny faces" --input "inputs/person-1.jpg" --input "inputs/person-2.jpg" --input "inputs/person-3.jpg" --output "outputs/group-photo.png"
 ```
 
 ## Notes
 
 - The script prints `TEXT:` lines for model text and `IMAGE:` lines for each saved file.
+- After the skill finishes, always present every generated image to the user by outputting `MEDIA:<path>` for each saved image path. This ensures the image is rendered inline in the conversation alongside the file path.
 - The final JSON summary only includes generated image paths and optional image config so prompts, model IDs, and source image paths are not echoed back into logs.
 - Saved file extensions follow the returned image mime type. If the requested output path uses a different suffix, the scripts keep the base name and write the file with the returned type instead.
 - If the model returns multiple images, the scripts save them as `name-1.png`, `name-2.png`, and so on.
